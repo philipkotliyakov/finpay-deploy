@@ -1,45 +1,51 @@
 # finpay-deploy
 
-Deployment charts and manifests for the **FinPay Enterprise Lab** — a scenario-driven Octopus Deploy exercise simulating a real mid-size fintech company.
-
-## Quick Start
-
-1. **Fork this repo** to your own GitHub account
-2. Clone your fork locally
-3. Follow the [Enterprise Lab Guide](https://github.com/YOUR_ORG/octopus-k8s-usecase/blob/main/enterprise-lab.md) *(update link)*
+Deployment charts and manifests for **FinPay** — a fictional mid-size fintech company used in the [Octopus Deploy Enterprise Lab](https://github.com/TODO_ORG/octopus-enterprise-lab).
 
 ## Structure
 
 ```
 ├── charts/
-│   ├── payments-api/          # Helm chart — core payments service
-│   ├── fraud-detector/        # Helm chart — ML fraud detection
-│   └── merchant-portal/       # Helm chart — merchant-facing portal
+│   ├── payments-api/        # Core payments service (Helm)
+│   ├── fraud-detector/      # ML fraud detection (Helm)
+│   └── merchant-portal/     # Merchant-facing portal (Helm)
 ├── manifests/
-│   └── kyc-service/           # Raw K8s YAML (Octopus variable substitution)
-├── argocd-manifests/
-│   └── payments-api/          # ArgoCD-managed manifests (per environment)
-│       ├── development/
-│       ├── staging/
-│       └── production/
-└── setup/
-    └── bootstrap.sh           # Creates Kind clusters + namespaces
+│   └── kyc-service/         # KYC identity verification (raw K8s YAML)
+└── argocd-manifests/
+    └── payments-api/        # ArgoCD-managed manifests
+        ├── development/
+        ├── staging/
+        └── production/
 ```
 
 ## Services
 
-| Service | Chart Type | Octopus Space | Notes |
-|---------|-----------|---------------|-------|
-| `payments-api` | Helm | Payments | Core service, approval gates for prod |
-| `fraud-detector` | Helm | Payments | ML service, restart runbook |
-| `merchant-portal` | Helm | Merchants | Tenanted (per-merchant) deployments |
-| `kyc-service` | Raw YAML | Merchants | PII handler, stricter compliance |
+| Service | Type | Octopus Space | Description |
+|---------|------|---------------|-------------|
+| `payments-api` | Helm chart | Payments | Core payment processing. Canary deploys, production approval gates. |
+| `fraud-detector` | Helm chart | Payments | ML-based fraud detection. Higher resource requirements. |
+| `merchant-portal` | Helm chart | Merchants | Merchant-facing portal. Tenanted (per-customer) deployments. |
+| `kyc-service` | Raw YAML | Merchants | Identity document processing. Handles PII, stricter compliance. |
 
-All services use `nginx:1.25-alpine` as the container image. The charts are structured like real production services (env-specific values, HPA, PDB, health checks) but the actual workload is nginx.
+All services use `nginx:1.25-alpine` as the container image. Charts are structured like real production services (per-environment values, HPA, PDB, health checks, liveness/readiness probes).
 
-## What You'll Need
+## Per-Environment Values
 
-- Docker Desktop
-- `kind`, `kubectl`, `helm`
-- An Octopus Cloud trial (Enterprise): https://octopus.com/start
-- A GitHub account
+Each Helm chart includes environment-specific values files:
+
+- `values.yaml` — base/default values
+- `values-development.yaml` — lower resources, debug logging
+- `values-staging.yaml` — moderate resources, info logging
+- `values-production.yaml` — full resources, HPA enabled, PDB, warn logging
+
+## Raw YAML (kyc-service)
+
+The KYC service uses Octopus variable substitution (`#{VariableName}`) instead of Helm. Variables like `#{Replicas}`, `#{LogLevel}`, and `#{DocumentStorageUrl}` are replaced by Octopus at deploy time.
+
+## ArgoCD Manifests
+
+The `argocd-manifests/` directory contains plain Kubernetes YAML organized per environment. These are used with Octopus's ArgoCD integration — Octopus commits image tag updates to this directory, and ArgoCD syncs the cluster.
+
+## Getting Started
+
+This repo is a companion to the [Octopus Deploy Enterprise Lab](https://github.com/TODO_ORG/octopus-enterprise-lab). Fork it, then follow the lab guide.
