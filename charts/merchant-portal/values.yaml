@@ -21,6 +21,8 @@ env:
   API_URL: "http://merchant-api.merchant-dev.svc:80"
   CDN_URL: "https://cdn.finpay.io"
   FEATURE_KYC_V2: "false"
+  BRAND_COLOR: "#000000"
+  DATA_REGION: "us-east-1"
 
 nodeSelector: {}
 
