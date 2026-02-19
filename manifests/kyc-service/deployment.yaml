@@ -26,8 +26,6 @@ spec:
               value: "#{LogLevel}"
             - name: DOCUMENT_STORAGE
               value: "#{DocumentStorageUrl}"
-            - name: KAFKA_BROKERS
-              value: "#{KafkaBrokers}"
           resources:
             requests:
               cpu: 50m
