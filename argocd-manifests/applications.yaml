@@ -14,8 +14,8 @@ metadata:
   name: payments-api-dev
   namespace: argocd
   annotations:
-    argo.octopus.com/project: payments-api
-    argo.octopus.com/environment: Development
+    argo.octopus.com/project: "payments-api-argo"
+    argo.octopus.com/environment: "dev"
 spec:
   project: default
   source:
