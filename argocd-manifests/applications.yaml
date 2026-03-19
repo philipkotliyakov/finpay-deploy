@@ -36,8 +36,8 @@ metadata:
   name: payments-api-staging
   namespace: argocd
   annotations:
-    argo.octopus.com/project: payments-api
-    argo.octopus.com/environment: Staging
+    argo.octopus.com/project: "payments-api-argo"
+    argo.octopus.com/environment: "staging"
 spec:
   project: default
   source:
