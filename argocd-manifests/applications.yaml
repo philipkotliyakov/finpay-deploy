@@ -16,7 +16,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/<YOUR_USERNAME>/finpay-deploy.git
+    repoURL: https://github.com/philipkotliyakov/finpay-deploy.git
     targetRevision: main
     path: argocd-manifests/payments-api/development
   destination:
@@ -35,7 +35,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/<YOUR_USERNAME>/finpay-deploy.git
+    repoURL: https://github.com/philipkotliyakov/finpay-deploy.git
     targetRevision: main
     path: argocd-manifests/payments-api/staging
   destination:
