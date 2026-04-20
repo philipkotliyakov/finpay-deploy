@@ -12,7 +12,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: payments-api-dev
-  namespace: argocd
+  namespace: payments-dev
   metadata:
   annotations:
     argo.octopus.com/project: "payments-api"
